@@ -129,7 +129,7 @@ exports.protect = catchAsyncError(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   // 3) Check if user still exists
-  const searchUserSql = `SELECT * FROM users WHERE user_id = ? and is_verified = true`;
+  const searchUserSql = `SELECT * FROM users WHERE user_id = ? `;
   const searchResult = await db(searchUserSql, decoded.id);
   const currentUser = searchResult[0];
 
