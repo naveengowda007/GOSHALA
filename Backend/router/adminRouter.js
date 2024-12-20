@@ -43,8 +43,8 @@ router.post("/data/updateMembersList", dataController.updateMembersList);
 
 //Trips
 router.get("/data/getTrips", dataController.getTrips);
-router.post("/data/insertMembersList", dataController.insertMembersList);
-router.post("/data/updateMembersList", dataController.updateMembersList);
+router.post("/data/inserTrips", dataController.inserTrips);
+router.post("/data/updateTrips", dataController.updateTrips);
 
 //Bookings
 router.get("/data/getUserTravelBookings", dataController.getUserTravelBookings);
