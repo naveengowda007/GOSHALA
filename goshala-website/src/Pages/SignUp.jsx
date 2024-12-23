@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import Logo from "../../src/assets/Goshala.png";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 function SignUp() {
   // State variables for form fields
+  const Navigate = useNavigate();
   const BASEURL = import.meta.env.VITE_REACT_APP_BASEURL;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
   // Handle input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -19,6 +22,12 @@ function SignUp() {
     if (id === "phone") setPhone(value);
     if (id === "password") setPassword(value);
     if (id === "confirm-password") setConfirmPassword(value);
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const togglePasswordVisibility1 = () => {
+    setShowPassword1((prev) => !prev);
   };
 
   // Handle form submission
@@ -38,7 +47,7 @@ function SignUp() {
       phone,
       password,
     };
-
+    console.log(username, email, phone, password);
     try {
       const response = await axios.post(
         `${BASEURL}/api/v1/users/login/signup`,
@@ -62,6 +71,9 @@ function SignUp() {
     }
   };
 
+  const handleNavigate = () => {
+    Navigate("/");
+  };
   return (
     <div className="flex min-h-screen">
       {/* Left Section */}
@@ -119,7 +131,7 @@ function SignUp() {
               </label>
               <input
                 id="phone"
-                type="tel"
+                type="number"
                 value={phone}
                 onChange={handleInputChange}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -127,20 +139,35 @@ function SignUp() {
               />
             </div>
             <div>
-              <label
-                htmlFor="password"
-                className="block text-xl font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={handleInputChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter your password"
-              />
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-xl font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword1 ? "text" : "password"}
+                    value={password}
+                    onChange={handleInputChange}
+                    className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility1}
+                    className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                  >
+                    {showPassword1 ? (
+                      <AiFillEye size={20} />
+                    ) : (
+                      <AiFillEyeInvisible size={20} />
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
             <div>
               <label
@@ -149,14 +176,28 @@ function SignUp() {
               >
                 Confirm Password
               </label>
-              <input
-                id="confirm-password"
-                type="password"
-                value={confirmPassword}
-                onChange={handleInputChange}
-                className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Confirm your password"
-              />
+              <div className="relative">
+                <input
+                  id="confirm-password"
+                  type={showPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={handleInputChange}
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Confirm your password"
+                />
+
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+                >
+                  {showPassword ? (
+                    <AiFillEye size={20} />
+                  ) : (
+                    <AiFillEyeInvisible size={20} />
+                  )}
+                </button>
+              </div>
             </div>
             <button
               type="submit"
@@ -164,6 +205,12 @@ function SignUp() {
             >
               Sign Up
             </button>
+            <span
+              onClick={handleNavigate}
+              className="underline justify-end flex text-blue-700 cursor-pointer"
+            >
+              Back
+            </span>
           </form>
         </aside>
       </section>
