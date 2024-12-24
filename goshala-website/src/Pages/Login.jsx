@@ -55,7 +55,7 @@ function Login() {
       alert("An error occurred. Please try again.");
     }
   };
-
+  // test
   const handleNavigate = () => {
     Navigate("/SignUp");
   };
