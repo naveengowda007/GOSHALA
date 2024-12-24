@@ -45,8 +45,10 @@ function Login() {
       );
 
       if (response) {
-        alert("Sign up successful!");
-        // Handle success (e.g., redirect to login page)
+        const token = response.data.accessToken; // Assuming the token is returned in the response
+        sessionStorage.setItem("authToken", token);
+        console.log(token);
+        Navigate("/GetTripDetails");
       } else {
         alert("Sign up failed");
       }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar from "../Component/SideBar";
 
-export default function GetTripDetails() {
+export default function AddCustomer() {
   const [tripTypes, setTripTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const token = sessionStorage.getItem("authToken");
