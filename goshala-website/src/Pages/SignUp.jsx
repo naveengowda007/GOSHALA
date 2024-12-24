@@ -3,10 +3,11 @@ import Logo from "../../src/assets/Goshala.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
 function SignUp() {
-  // State variables for form fields
   const Navigate = useNavigate();
   const BASEURL = import.meta.env.VITE_REACT_APP_BASEURL;
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -14,7 +15,7 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword1, setShowPassword1] = useState(false);
-  // Handle input changes
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     if (id === "username") setUsername(value);
@@ -23,31 +24,18 @@ function SignUp() {
     if (id === "password") setPassword(value);
     if (id === "confirm-password") setConfirmPassword(value);
   };
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-  const togglePasswordVisibility1 = () => {
-    setShowPassword1((prev) => !prev);
-  };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const togglePasswordVisibility1 = () => setShowPassword1((prev) => !prev);
 
-    // Validation (optional, to ensure password and confirmPassword match)
+  const handleSignUp = async () => {
+    console.log("Signing up with:", { username, email, phone, password });
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      alert("Passwords do not match!");
       return;
     }
 
-    // Create the payload
-    const payload = {
-      username,
-      email,
-      phone,
-      password,
-    };
-    console.log(username, email, phone, password);
     try {
       const response = await axios.post(
         `${BASEURL}/api/v1/users/login/signup`,
@@ -56,24 +44,30 @@ function SignUp() {
           email: email,
           password: password,
           user_mobile: phone,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      if (response) {
+      if (response.status === 201) {
         alert("Sign up successful!");
-        // Handle success (e.g., redirect to login page)
+        Navigate("/");
       } else {
-        alert("Sign up failed");
+        alert("Sign up failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      console.error("Error:", error.response?.data || error.message);
+      alert(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
-  const handleNavigate = () => {
-    Navigate("/");
-  };
+  const handleNavigate = () => Navigate("/");
+
   return (
     <div className="flex min-h-screen">
       {/* Left Section */}
@@ -89,7 +83,7 @@ function SignUp() {
       <section className="flex items-center justify-center w-1/2">
         <aside className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
           <p className="text-2xl font-bold text-gray-800">Sign Up</p>
-          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+          <div className="mt-4 space-y-4">
             <div>
               <label
                 htmlFor="username"
@@ -104,6 +98,7 @@ function SignUp() {
                 onChange={handleInputChange}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your username"
+                required
               />
             </div>
             <div>
@@ -120,6 +115,7 @@ function SignUp() {
                 onChange={handleInputChange}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your email"
+                required
               />
             </div>
             <div>
@@ -136,37 +132,37 @@ function SignUp() {
                 onChange={handleInputChange}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your phone number"
+                required
               />
             </div>
             <div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-xl font-medium text-gray-700"
+              <label
+                htmlFor="password"
+                className="block text-xl font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword1 ? "text" : "password"}
+                  value={password}
+                  onChange={handleInputChange}
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility1}
+                  className="absolute inset-y-0 right-2 flex items-center text-gray-500"
                 >
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    id="password"
-                    type={showPassword1 ? "text" : "password"}
-                    value={password}
-                    onChange={handleInputChange}
-                    className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter your password"
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility1}
-                    className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                  >
-                    {showPassword1 ? (
-                      <AiFillEye size={20} />
-                    ) : (
-                      <AiFillEyeInvisible size={20} />
-                    )}
-                  </button>
-                </div>
+                  {showPassword1 ? (
+                    <AiFillEye size={20} />
+                  ) : (
+                    <AiFillEyeInvisible size={20} />
+                  )}
+                </button>
               </div>
             </div>
             <div>
@@ -184,8 +180,8 @@ function SignUp() {
                   onChange={handleInputChange}
                   className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Confirm your password"
+                  required
                 />
-
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -200,18 +196,19 @@ function SignUp() {
               </div>
             </div>
             <button
-              type="submit"
+              onClick={handleSignUp}
               className="w-full py-2 text-white bg-emerald-700 rounded hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Sign Up
             </button>
-            <span
-              onClick={handleNavigate}
-              className="underline justify-end flex text-blue-700 cursor-pointer"
-            >
-              Back
-            </span>
-          </form>
+          </div>
+          <button
+            type="button"
+            onClick={handleNavigate}
+            className="underline justify-end flex text-blue-700 cursor-pointer"
+          >
+            Back
+          </button>
         </aside>
       </section>
     </div>

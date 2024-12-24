@@ -2,6 +2,24 @@ import React from "react";
 import SideBar from "../Component/SideBar";
 
 function GetTripDetails() {
+  const handleSubmit = async (e) => {
+    try {
+      const response = await axios.post(
+        `${BASEURL}/api/v1/users/data/getTripTypes`,
+        {}
+      );
+
+      if (response) {
+        alert("Sign up successful!");
+        // Handle success (e.g., redirect to login page)
+      } else {
+        alert("Sign up failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
   return (
     <aside>
       <div className="flex">
