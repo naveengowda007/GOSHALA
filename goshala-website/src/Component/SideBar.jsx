@@ -6,10 +6,12 @@ import { MdOutlinePendingActions } from "react-icons/md";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { HiMiniCurrencyRupee } from "react-icons/hi2";
 import { GrAnnounce } from "react-icons/gr";
+import { MdDashboard } from "react-icons/md";
 function SideBar() {
-  const [activeLink, setActiveLink] = useState("Members"); // Default active link is Packages
+  const [activeLink, setActiveLink] = useState("UserDashboard"); // Default active link is Packages
 
   const handleLinkClick = (linkName) => {
+    console.log(linkName);
     setActiveLink(linkName); // Set the clicked link as active
   };
 
@@ -20,6 +22,17 @@ function SideBar() {
         <h2 className="font-bold text-lg">Goshala</h2>
       </div>
       <ul className="p-4 m-4 flex flex-col justify-center gap-2">
+        <li
+          className={`flex items-center p-2 rounded-lg cursor-pointer ${
+            activeLink === "Userdashboard"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => handleLinkClick("UserDashboard")}
+        >
+          <MdDashboard className=" text-xl mr-2" />
+          <Link to="/UserDashboard">Dashboard</Link>
+        </li>
         <li
           className={`flex items-center gap-2  p-1  cursor-pointer ${
             activeLink === "Customer"

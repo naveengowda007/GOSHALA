@@ -17,6 +17,7 @@ import UserBookings from "./Pages/User/UserBookings";
 import AddBooking from "./Pages/User/AddBooking";
 import UserPayment from "./Pages/User/UserPayment";
 import UserAnnouncements from "./Pages/User/UserAnnouncements";
+import UserDashboard from "./Pages/User/UserDashboard";
 function App() {
   return (
     <BrowserRouter>
@@ -41,6 +42,7 @@ function App() {
         <Route path="/AddBooking" element={<AddBooking />} />
         <Route path="/UserPayment" element={<UserPayment />} />
         <Route path="/UserAnnouncements" element={<UserAnnouncements />} />
+        <Route path="/UserDashboard" element={<UserDashboard />} />
       </Routes>
     </BrowserRouter>
   );

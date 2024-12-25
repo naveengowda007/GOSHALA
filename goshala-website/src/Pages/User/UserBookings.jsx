@@ -92,7 +92,7 @@ const UserBookings = () => {
   return (
     <div className="flex">
       <SideBar />
-      <div className="flex-1">
+      <section className="m-2 p-2 w-full">
         <div className=" flex justify-start items-center p-4">
           <h2 className="text-2xl font-bold">Bookings</h2>
           <input
@@ -259,7 +259,7 @@ const UserBookings = () => {
             )}
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 };

@@ -8,12 +8,11 @@ export default function Customer() {
   const [tripTypes, setTripTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const token = sessionStorage.getItem("authToken");
-  // const userid = sessionStorage.getItem("user");
-  // console.log(userid);
+
   const userDetails = useSelector((state) => state.auth.userDetails);
   console.log(userDetails?.empid);
   const Navigate = useNavigate();
-  // Replace with your actual BASEURL
+
   const BASEURL =
     import.meta.env.VITE_REACT_APP_BASEURL || "http://localhost:3000";
 

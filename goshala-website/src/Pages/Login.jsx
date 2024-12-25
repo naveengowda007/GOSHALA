@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { login } from "../AuthSlice";
+import { login } from "../Redux/AuthSlice";
 function Login() {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,7 +51,6 @@ function Login() {
         const token = response.data.accessToken; // Assuming the token is returned in the response
         sessionStorage.setItem("authToken", token);
         console.log(token);
-        Navigate("/Customer");
 
         const userDetails = response.data.user; // Assuming user details are returned in the response
 
@@ -62,6 +61,7 @@ function Login() {
             token: token,
           })
         );
+        Navigate("/UserDashboard");
       } else {
         alert("Sign up failed");
       }
