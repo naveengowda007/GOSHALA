@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SideBar from "../Component/SideBar";
+import SideBar from "../../Component/SideBar";
 
-export default function AddCustomer() {
+export default function TripDetails() {
   const [tripTypes, setTripTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const token = sessionStorage.getItem("authToken");
@@ -20,7 +20,7 @@ export default function AddCustomer() {
 
     try {
       const response = await axios.get(
-        `${BASEURL}/api/v1/users/data/getTripTypes`,
+        `${BASEURL}/api/v1/users/data/getTrips`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,22 +64,25 @@ export default function AddCustomer() {
             placeholder="Search packages"
           />
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="flex rounded-sm ">
-              {filteredTrips.length > 0 ? (
-                filteredTrips.map((trip, index) => (
-                  <div key={index} className="p-2 border-b shadow-md w-48">
-                    <p className="flex">
-                      <span>ID : </span>
-                      <span className="text-red-600">{trip.trip_type_id}</span>
-                    </p>
-                    <p>
-                      {" "}
-                      <span>Type Name : </span>
-                      <span className="text-red-600">
-                        {" "}
-                        {trip.trip_type_name}
-                      </span>
-                    </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+              {tripTypes.length > 0 ? (
+                tripTypes.map((trip, index) => (
+                  <div
+                    key={trip.trip_id}
+                    className="bg-green-prm text-white p-4 rounded-lg flex flex-col gap-1 justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                    onClick={() => openModal(trip)}
+                  >
+                    <span>From: {trip.trip_from}</span>
+                    <span> To: {trip.trip_to}</span>
+                    <span> Intermediate Stops: {trip.intermideate_stops}</span>
+
+                    <span> Start Date: {trip.start_date?.slice(0, 10)}</span>
+                    <span> End Date: {trip.end_date?.slice(0, 10)}</span>
+                    <span> Price: ₹{trip.price}</span>
+                    <span> Days Count: {trip.days_count}</span>
+                    <span> Trip Type: {trip.trip_type}</span>
+                    <span> Trip Status: {trip.trip_status}</span>
+                    <span> Trip Descriptions: {trip.trip_descriptions}</span>
                   </div>
                 ))
               ) : (

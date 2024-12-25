@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SideBar from "../Component/SideBar";
+import SideBar from "../../Component/SideBar";
 
-export default function GetTripDetails() {
+export default function UserAnnouncements() {
   const [tripTypes, setTripTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const token = sessionStorage.getItem("authToken");
@@ -20,7 +20,7 @@ export default function GetTripDetails() {
 
     try {
       const response = await axios.get(
-        `${BASEURL}/api/v1/users/data/getTripTypes`,
+        `${BASEURL}/api/v1/users/data/getAnnouncements`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,7 +46,7 @@ export default function GetTripDetails() {
 
   //   // Filter Trip Types Based on Search Term
   const filteredTrips = tripTypes.filter((trip) =>
-    trip.trip_type_name?.toLowerCase().includes(searchTerm?.toLowerCase())
+    trip.announcement_type?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
   //   console.log(first);
 
@@ -64,26 +64,21 @@ export default function GetTripDetails() {
             placeholder="Search packages"
           />
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="flex rounded-sm ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
               {filteredTrips.length > 0 ? (
                 filteredTrips.map((trip, index) => (
-                  <div key={index} className="p-2 border-b shadow-md w-48">
-                    <p className="flex">
-                      <span>ID : </span>
-                      <span className="text-red-600">{trip.trip_type_id}</span>
-                    </p>
-                    <p>
-                      {" "}
-                      <span>Type Name : </span>
-                      <span className="text-red-600">
-                        {" "}
-                        {trip.trip_type_name}
-                      </span>
-                    </p>
+                  <div
+                    key={trip.trip_id}
+                    className="bg-green-prm text-white p-4 rounded-lg flex flex-col gap-1 justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                    onClick={() => openModal(trip)}
+                  >
+                    <span>Announcment Type: {trip.announcement_type}</span>
+
+                    <span> Description: {trip.announcement_description}</span>
                   </div>
                 ))
               ) : (
-                <p>No trip types available</p>
+                <p>No trip Announcment available</p>
               )}
             </div>
           </section>

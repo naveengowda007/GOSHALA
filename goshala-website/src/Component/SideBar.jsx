@@ -1,63 +1,85 @@
 import React, { useState } from "react";
 import { IoDocumentTextOutline, IoPersonOutline } from "react-icons/io5";
-import Logo from "../../src/assets/Goshala_Logo.png";
+import Logo from "../../src/assets/Goshala_Logo_bg.png";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
-
+import { HiMiniCurrencyRupee } from "react-icons/hi2";
+import { GrAnnounce } from "react-icons/gr";
 function SideBar() {
-  const [activeLink, setActiveLink] = useState("GetTripDetails"); // Default active link is Packages
+  const [activeLink, setActiveLink] = useState("Members"); // Default active link is Packages
 
   const handleLinkClick = (linkName) => {
     setActiveLink(linkName); // Set the clicked link as active
   };
 
   return (
-    <aside className="relative left-0 w-80 shadow-md h-screen">
-      <div>
-        <img src={Logo} alt="Logo" />
-        <ul className="p-4 m-4 flex flex-col gap-4">
-          <li
-            className={`flex items-center gap-2 cursor-pointer ${
-              activeLink === "GetTripDetails" ? "text-blue-500" : ""
-            }`}
-            onClick={() => handleLinkClick("GetTripDetails")}
-          >
-            <IoDocumentTextOutline />
-            <Link to="/GetTripDetails">Packages</Link>{" "}
-            {/* Link to Packages page */}
-          </li>
-          <li
-            className={`flex items-center gap-2 cursor-pointer ${
-              activeLink === "Customer" ? "text-blue-500" : ""
-            }`}
-            onClick={() => handleLinkClick("Customer")}
-          >
-            <IoPersonOutline />
-            <Link to="/customer">Customer</Link> {/* Link to Customer page */}
-          </li>
-          <li
-            className={`flex items-center gap-2 cursor-pointer ${
-              activeLink === "Revenue" ? "text-blue-500" : ""
-            }`}
-            onClick={() => handleLinkClick("Revenue")}
-          >
-            <RiMoneyRupeeCircleLine />
-            <Link to="/revenue">Revenue Generated</Link>{" "}
-            {/* Link to Revenue page */}
-          </li>
-          <li
-            className={`flex items-center gap-2 cursor-pointer ${
-              activeLink === "PendingDues" ? "text-blue-500" : ""
-            }`}
-            onClick={() => handleLinkClick("PendingDues")}
-          >
-            <MdOutlinePendingActions />
-            <Link to="/pending-dues">Pending Dues</Link>{" "}
-            {/* Link to Pending Dues page */}
-          </li>
-        </ul>
+    <aside className="relative left-0 w-80 shadow-md min-h-screen bg-green-100">
+      <div className="flex justify-center flex-col align-middle items-center mt-2">
+        <img src={Logo} alt="Logo" className="w-20" />
+        <h2 className="font-bold text-lg">Goshala</h2>
       </div>
+      <ul className="p-4 m-4 flex flex-col justify-center gap-2">
+        <li
+          className={`flex items-center gap-2  p-1  cursor-pointer ${
+            activeLink === "Customer"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => handleLinkClick("Customer")}
+        >
+          <IoPersonOutline />
+          <Link to="/customer">Member</Link> {/* Link to Customer page */}
+        </li>
+        <li
+          className={`flex items-center gap-2  p-1 cursor-pointer ${
+            activeLink === "TripsDetails"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => handleLinkClick("TripsDetails")}
+        >
+          <RiMoneyRupeeCircleLine />
+          <Link to="/TripsDetails">Trips Details</Link>{" "}
+          {/* Link to Revenue page */}
+        </li>
+        <li
+          className={`flex items-center gap-2 p-1 cursor-pointer ${
+            activeLink === "UserBookings"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => handleLinkClick("UserBookings")}
+        >
+          <MdOutlinePendingActions />
+          <Link to="/UserBookings">bookings</Link>{" "}
+          {/* Link to Pending Dues page */}
+        </li>
+        <li
+          className={`flex items-center gap-2 p-1 cursor-pointer ${
+            activeLink === "UserPayment"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => handleLinkClick("UserPayment")}
+        >
+          <HiMiniCurrencyRupee />
+          <Link to="/UserPayment">Payments</Link>{" "}
+          {/* Link to Pending Dues page */}
+        </li>
+        <li
+          className={`flex items-center gap-2 p-1 cursor-pointer ${
+            activeLink === "UserAnnouncements"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => handleLinkClick("UserAnnouncements")}
+        >
+          <GrAnnounce />
+          <Link to="/UserAnnouncements">Announcements</Link>{" "}
+          {/* Link to Pending Dues page */}
+        </li>
+      </ul>
     </aside>
   );
 }

@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import SideBar from "../Component/SideBar";
+import SideBar from "../../Component/SideBar";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Customer() {
   const [tripTypes, setTripTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const token = sessionStorage.getItem("authToken");
+  // const userid = sessionStorage.getItem("user");
+  // console.log(userid);
+  const userDetails = useSelector((state) => state.auth.userDetails);
+  console.log(userDetails?.empid);
   const Navigate = useNavigate();
   // Replace with your actual BASEURL
   const BASEURL =
@@ -18,10 +23,11 @@ export default function Customer() {
       alert("You are not authorized. Please log in.");
       return;
     }
+    console.log(userDetails?.empid);
 
     try {
       const response = await axios.get(
-        `${BASEURL}/api/v1/users/data/getMembersList`,
+        `${BASEURL}/api/v1/users/data/getMembersList?associated_user_id=${userDetails?.empid}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,44 +91,42 @@ export default function Customer() {
             </div>
           </div>
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="flex rounded-sm ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
               {filteredTrips.length > 0 ? (
                 filteredTrips.map((trip, index) => (
-                  <div key={index} className="p-2 border-b shadow-md w-fit">
+                  <div
+                    key={index}
+                    className="p-2 border-b shadow-md rounded-lg bg-green-700 text-white"
+                  >
                     <p className="flex">
                       <span>User ID : </span>
-                      <span className="text-red-600">
+                      <span className="text-white ml-1">
                         {trip.associated_user_id}
                       </span>
                     </p>
                     <p>
-                      {" "}
                       <span>Member Age : </span>
-                      <span className="text-red-600"> {trip.member_age}</span>
+                      <span className="text-white ml-1">{trip.member_age}</span>
                     </p>
                     <p>
-                      {" "}
                       <span>Contact Number : </span>
-                      <span className="text-red-600">
-                        {" "}
+                      <span className="text-white ml-1 w-[300px]">
                         {trip.member_contact_number}
                       </span>
                     </p>
                     <p>
-                      {" "}
                       <span>Member Id : </span>
-                      <span className="text-red-600"> {trip.member_id}</span>
+                      <span className="text-white ml-1">{trip.member_id}</span>
                     </p>
                     <p>
-                      {" "}
                       <span>Member Name : </span>
-                      <span className="text-red-600"> {trip.member_name}</span>
+                      <span className="text-white ml-1">
+                        {trip.member_name}
+                      </span>
                     </p>
                     <p>
-                      {" "}
                       <span>Gender : </span>
-                      <span className="text-red-600">
-                        {" "}
+                      <span className="text-white ml-1">
                         {trip.memeber_gender}
                       </span>
                     </p>

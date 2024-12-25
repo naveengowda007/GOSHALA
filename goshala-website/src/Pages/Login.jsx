@@ -3,8 +3,11 @@ import Logo from "../../src/assets/Goshala.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { login } from "../AuthSlice";
 function Login() {
   const Navigate = useNavigate();
+  const dispatch = useDispatch();
   const BASEURL = import.meta.env.VITE_REACT_APP_BASEURL;
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -48,7 +51,17 @@ function Login() {
         const token = response.data.accessToken; // Assuming the token is returned in the response
         sessionStorage.setItem("authToken", token);
         console.log(token);
-        Navigate("/GetTripDetails");
+        Navigate("/Customer");
+
+        const userDetails = response.data.user; // Assuming user details are returned in the response
+
+        // Dispatch login action to Redux
+        dispatch(
+          login({
+            userDetails: userDetails,
+            token: token,
+          })
+        );
       } else {
         alert("Sign up failed");
       }
