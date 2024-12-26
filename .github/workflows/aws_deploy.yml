@@ -46,7 +46,7 @@ jobs:
           port: 22
           script: |
             # Navigate to the directory with your docker-compose.yml file
-            cd /home/ubuntu/goshala
+            cd goshala
 
             # Ensure Docker Compose is stopped, then pull and start the latest image
             docker compose down
