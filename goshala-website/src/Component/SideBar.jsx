@@ -3,11 +3,13 @@ import { IoDocumentTextOutline, IoPersonOutline } from "react-icons/io5";
 import Logo from "../../src/assets/Goshala_Logo_bg.png";
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { MdOutlinePendingActions } from "react-icons/md";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import { HiMiniCurrencyRupee } from "react-icons/hi2";
 import { GrAnnounce } from "react-icons/gr";
 import { MdDashboard } from "react-icons/md";
+import { LuLogOut } from "react-icons/lu";
 function SideBar() {
+  const Navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("UserDashboard"); // Default active link is Packages
 
   const handleLinkClick = (linkName) => {
@@ -28,7 +30,10 @@ function SideBar() {
               ? "bg-green-500 text-white"
               : "text-gray-700 hover:bg-green-200"
           }`}
-          onClick={() => handleLinkClick("UserDashboard")}
+          onClick={() => {
+            handleLinkClick("UserDashboard");
+            Navigate("/UserDashboard");
+          }}
         >
           <MdDashboard className=" text-xl mr-2" />
           <Link to="/UserDashboard">Dashboard</Link>
@@ -39,7 +44,10 @@ function SideBar() {
               ? "bg-green-500 text-white"
               : "text-gray-700 hover:bg-green-200"
           }`}
-          onClick={() => handleLinkClick("Customer")}
+          onClick={() => {
+            handleLinkClick("Customer");
+            Navigate("/customer");
+          }}
         >
           <IoPersonOutline />
           <Link to="/customer">Member</Link> {/* Link to Customer page */}
@@ -50,7 +58,10 @@ function SideBar() {
               ? "bg-green-500 text-white"
               : "text-gray-700 hover:bg-green-200"
           }`}
-          onClick={() => handleLinkClick("TripsDetails")}
+          onClick={() => {
+            handleLinkClick("TripsDetails");
+            Navigate("/TripsDetails");
+          }}
         >
           <RiMoneyRupeeCircleLine />
           <Link to="/TripsDetails">Trips Details</Link>{" "}
@@ -62,7 +73,10 @@ function SideBar() {
               ? "bg-green-500 text-white"
               : "text-gray-700 hover:bg-green-200"
           }`}
-          onClick={() => handleLinkClick("UserBookings")}
+          onClick={() => {
+            handleLinkClick("UserBookings");
+            Navigate("/UserBookings");
+          }}
         >
           <MdOutlinePendingActions />
           <Link to="/UserBookings">bookings</Link>{" "}
@@ -74,7 +88,10 @@ function SideBar() {
               ? "bg-green-500 text-white"
               : "text-gray-700 hover:bg-green-200"
           }`}
-          onClick={() => handleLinkClick("UserPayment")}
+          onClick={() => {
+            handleLinkClick("UserPayment");
+            Navigate("/UserPayment");
+          }}
         >
           <HiMiniCurrencyRupee />
           <Link to="/UserPayment">Payments</Link>{" "}
@@ -86,11 +103,27 @@ function SideBar() {
               ? "bg-green-500 text-white"
               : "text-gray-700 hover:bg-green-200"
           }`}
-          onClick={() => handleLinkClick("UserAnnouncements")}
+          onClick={() => {
+            handleLinkClick("UserAnnouncements");
+            Navigate("/UserAnnouncements");
+          }}
         >
           <GrAnnounce />
           <Link to="/UserAnnouncements">Announcements</Link>{" "}
           {/* Link to Pending Dues page */}
+        </li>
+        <li
+          className={`flex items-center gap-2 p-1 cursor-pointer ${
+            activeLink === "UserAnnounce"
+              ? "bg-green-500 text-white"
+              : "text-gray-700 hover:bg-green-200"
+          }`}
+          onClick={() => {
+            Navigate("/");
+          }}
+        >
+          <LuLogOut />
+          <Link to="/">Logout</Link> {/* Link to Pending Dues page */}
         </li>
       </ul>
     </aside>

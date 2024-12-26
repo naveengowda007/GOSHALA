@@ -19,11 +19,14 @@ const Announcements = () => {
     const getAnnouncements = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(import.meta.env.VITE_GET_ANNOUNCEMENTS, {
-          headers: {
-            Authorization: `Bearer ${adminAccess}`,
-          },
-        });
+        const response = await axios.get(
+          import.meta.env.VITE_GET_ANNOUNCEMENTS,
+          {
+            headers: {
+              Authorization: `Bearer ${adminAccess}`,
+            },
+          }
+        );
         setAnnouncements(response.data);
       } catch (error) {
         console.error("Error fetching announcements:", error);
@@ -35,6 +38,15 @@ const Announcements = () => {
   }, [adminAccess]);
 
   const handleCreate = async () => {
+    if (!currentAnnouncement.announcement_type) {
+      alert("Please Provide announcement type ");
+      return;
+    }
+
+    if (!currentAnnouncement.currentAnnouncement) {
+      alert("Please Provide current Announcement");
+      return;
+    }
     setmLoading(true);
     try {
       const response = await axios.post(
@@ -68,6 +80,15 @@ const Announcements = () => {
   };
 
   const handleUpdate = async () => {
+    if (!currentAnnouncement.announcement_type) {
+      alert("Please Provide announcement type ");
+      return;
+    }
+
+    if (!currentAnnouncement.currentAnnouncement) {
+      alert("Please Provide current Announcement");
+      return;
+    }
     setmLoading(true);
     try {
       const response = await axios.post(
@@ -114,19 +135,15 @@ const Announcements = () => {
     <div className="flex">
       <Sidebar currentPage="announcements" />
       <div className="flex-1">
-        <div className="h-[10%] flex justify-between items-center p-4">
+        <div className="flex justify-between items-center p-4">
           <h2 className="text-2xl font-bold">Announcements</h2>
-          </div>
-          <div className="flex justify-end items-center p-4">
-
           <button
             onClick={() => openModal()}
             className="bg-green-prm py-2 rounded-lg px-4 text-white font-semibold hover:scale-105 transition-all 300ms"
           >
-            Create 
+            Create
           </button>
-          </div>
-        
+        </div>
 
         <div
           className={`${
@@ -210,9 +227,7 @@ const Announcements = () => {
                     }
                     className="bg-green-500 text-white py-2 px-4 rounded-lg"
                   >
-                    {currentAnnouncement.announcement_id
-                      ? "Update"
-                      : "Create"}
+                    {currentAnnouncement.announcement_id ? "Update" : "Create"}
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}

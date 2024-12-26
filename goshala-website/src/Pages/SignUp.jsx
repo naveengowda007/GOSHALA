@@ -52,7 +52,7 @@ function SignUp() {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         alert("Sign up successful!");
         Navigate("/");
       } else {

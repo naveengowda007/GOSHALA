@@ -145,11 +145,9 @@ const Trips = () => {
   return (
     <div className="flex">
       <Sidebar currentPage="trips" />
-      <div className="flex-1">
-        <div className="h-[10%] flex justify-start items-center p-4">
+      <div className="">
+        <div className=" flex justify-between p-4">
           <h2 className="text-2xl font-bold ">Trips</h2>
-        </div>
-        <div className=" flex justify-end p-4">
           <button
             onClick={() => openModal()}
             className="bg-green-prm py-2 rounded-lg px-4 text-white font-semibold hover:scale-105 transition-all 300ms"
@@ -225,13 +223,13 @@ const Trips = () => {
         </div>
 
         {modalOpen && (
-          <div className="modal-overlay fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
+          <div className="modal-overlay fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center ">
             {mloading ? (
               <div>
                 <Loading />
               </div>
             ) : (
-              <div className="modal-content bg-white p-6 rounded-lg w-full max-w-3xl shadow-lg">
+              <div className="modal-content bg-white p-6 rounded-lg w-full max-w-3xl shadow-lg max-h-[90vh] overflow-auto">
                 <h3 className="text-xl font-bold mb-4">
                   {currentTrip.trip_id ? "Update Trip" : "Create Trip"}
                 </h3>
