@@ -11,6 +11,8 @@ const Members = () => {
   const [loading, setLoading] = useState(false);
   const [mloading, setmLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [SAVEorUpdate, setSAVEorUpdate] = useState(false);
+
   const [currentMember, setCurrentMember] = useState({
     member_name: "",
     memeber_gender: "",
@@ -20,33 +22,35 @@ const Members = () => {
   });
 
   useEffect(() => {
-    const getMembers = async () => {
-      setLoading(true);
-      try {
-        if (!adminAccess) {
-          navigate("/admin/login");
-          throw new Error("Not logged in");
-        }
-        const response = await axios.get(import.meta.env.VITE_GET_MEMBERS, {
-          headers: {
-            Authorization: `Bearer ${adminAccess}`,
-          },
-        });
-        setMembers(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     getMembers();
   }, []);
+  const getMembers = async () => {
+    setLoading(true);
+    try {
+      if (!adminAccess) {
+        navigate("/admin/login");
+        throw new Error("Not logged in");
+      }
+      const response = await axios.get(import.meta.env.VITE_GET_MEMBERS, {
+        headers: {
+          Authorization: `Bearer ${adminAccess}`,
+        },
+      });
+      setMembers(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleUpdate = async () => {
     setmLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.VITE_UPDATE_MEMBERS,
+        SAVEorUpdate === "UPDATE"
+          ? import.meta.env.VITE_UPDATE_MEMBERS
+          : import.meta.env.VITE_SAVE_MEMBERS,
         currentMember,
         {
           headers: {
@@ -56,6 +60,7 @@ const Members = () => {
       );
       if (response.status === 200) {
         alert("Updated Successfully");
+        getMembers();
         const updatedMembers = members.map((member) =>
           member.member_id === currentMember.member_id ? currentMember : member
         );
@@ -73,16 +78,28 @@ const Members = () => {
   const openModal = (member) => {
     if (member) {
       setCurrentMember(member);
+      setSAVEorUpdate("UPDATE");
       setModalOpen(true);
     }
+  };
+  const openModalNew = () => {
+    setCurrentMember("");
+    setSAVEorUpdate("SAVE");
+    setModalOpen(true);
   };
 
   return (
     <div className="flex">
       <Sidebar currentPage="members" />
       <div className="flex-1">
-        <div className="h-[10%] flex justify-start items-center p-4">
+        <div className=" flex justify-between items-center p-4">
           <h2 className="text-2xl font-bold">Members</h2>
+          <button
+            onClick={() => openModalNew()}
+            className="bg-green-prm py-2 rounded-lg px-4 text-white font-semibold hover:scale-105 transition-all 300ms"
+          >
+            Create Members
+          </button>
         </div>
         <div
           className={`${
@@ -215,12 +232,21 @@ const Members = () => {
                 </form>
 
                 <div className="flex justify-between mt-6 space-x-4">
-                  <button
-                    onClick={handleUpdate}
-                    className="bg-green-500 text-white py-2 px-4 rounded-lg"
-                  >
-                    Update
-                  </button>
+                  {SAVEorUpdate === "UPDATE" ? (
+                    <button
+                      onClick={handleUpdate}
+                      className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                    >
+                      Update
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleUpdate}
+                      className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                    >
+                      Save
+                    </button>
+                  )}{" "}
                   <button
                     onClick={() => setModalOpen(false)}
                     className="bg-red-500 text-white py-2 px-4 rounded-lg"

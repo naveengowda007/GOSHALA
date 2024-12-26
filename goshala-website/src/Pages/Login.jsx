@@ -63,16 +63,21 @@ function Login() {
         );
         Navigate("/UserDashboard");
       } else {
-        alert("Sign up failed");
+        alert("Sign in failed");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred. Please try again.");
+      alert(
+        error.response?.data?.err || "An error occurred. Please try again."
+      );
     }
   };
   // test
   const handleNavigate = () => {
     Navigate("/SignUp");
+  };
+  const handleNavigateAdmin = () => {
+    Navigate("/admin/login");
   };
   return (
     <div>
@@ -145,14 +150,20 @@ function Login() {
               >
                 Login
               </button>
-              {/* <div> */}
-              <span
-                onClick={handleNavigate}
-                className="underline justify-end flex text-blue-700 cursor-pointer"
-              >
-                Sign-up
-              </span>
-              {/* </div> */}
+              <div className="justify-between flex">
+                <span
+                  onClick={handleNavigateAdmin}
+                  className="underline  text-blue-700 cursor-pointer"
+                >
+                  Admin Login
+                </span>
+                <span
+                  onClick={handleNavigate}
+                  className="underline  text-blue-700 cursor-pointer"
+                >
+                  Sign-up
+                </span>
+              </div>
             </form>
           </aside>
         </section>

@@ -11,6 +11,8 @@ const Bookings = () => {
   const [loading, setLoading] = useState(false);
   const [mloading, setmLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [SAVEorUpdate, setSAVEorUpdate] = useState(false);
+
   const [currentBooking, setCurrentBooking] = useState({
     booking_id: "",
     trip_id: "",
@@ -20,33 +22,35 @@ const Bookings = () => {
   });
 
   useEffect(() => {
-    const getBookings = async () => {
-      setLoading(true);
-      try {
-        if (!adminAccess) {
-          navigate("/admin/login");
-          throw new Error("Not logged in");
-        }
-        const response = await axios.get(import.meta.env.VITE_GET_BOOKINGS, {
-          headers: {
-            Authorization: `Bearer ${adminAccess}`,
-          },
-        });
-        setBookings(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     getBookings();
   }, []);
-
+  const getBookings = async () => {
+    setLoading(true);
+    try {
+      if (!adminAccess) {
+        navigate("/admin/login");
+        throw new Error("Not logged in");
+      }
+      const response = await axios.get(import.meta.env.VITE_GET_BOOKINGS, {
+        headers: {
+          Authorization: `Bearer ${adminAccess}`,
+        },
+      });
+      setBookings(response.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleUpdate = async () => {
     setmLoading(true);
     try {
       const response = await axios.post(
-        import.meta.env.VITE_UPDATE_BOOKINGS,
+        SAVEorUpdate === "UPDATE"
+          ? import.meta.env.VITE_UPDATE_BOOKINGS
+          : import.meta.env.VITE_SAVE_BOOKINGS,
+
         currentBooking,
         {
           headers: {
@@ -75,16 +79,31 @@ const Bookings = () => {
   const openModal = (booking) => {
     if (booking) {
       setCurrentBooking(booking);
+      setSAVEorUpdate("UPDATE");
+
       setModalOpen(true);
     }
+  };
+
+  const openModalNew = () => {
+    setCurrentBooking("");
+    setSAVEorUpdate("SAVE");
+
+    setModalOpen(true);
   };
 
   return (
     <div className="flex">
       <Sidebar currentPage="bookings" />
       <div className="flex-1">
-        <div className="h-[10%] flex justify-start items-center p-4">
+        <div className="flex justify-between items-center p-4">
           <h2 className="text-2xl font-bold">Bookings</h2>
+          {/* <button
+            onClick={() => openModalNew()}
+            className="bg-green-prm py-2 rounded-lg px-4 text-white font-semibold hover:scale-105 transition-all 300ms"
+          >
+            Create Booking
+          </button> */}
         </div>
         <div
           className={`${
@@ -135,7 +154,7 @@ const Bookings = () => {
                 <Loading />
               </div>
             ) : (
-              <div className="modal-content bg-white p-6 rounded-lg w-full max-w-3xl shadow-lg">
+              <div className="modal-content bg-white p-6 rounded-lg w-full max-w-3xl shadow-lg [80vh] overflow-auto">
                 <h3 className="text-xl font-bold mb-4">Update Booking</h3>
                 <form className="space-y-6">
                   <div className="space-y-4">
@@ -213,12 +232,21 @@ const Bookings = () => {
                 </form>
 
                 <div className="flex justify-between mt-6 space-x-4">
-                  <button
-                    onClick={handleUpdate}
-                    className="bg-green-500 text-white py-2 px-4 rounded-lg"
-                  >
-                    Update
-                  </button>
+                  {SAVEorUpdate === "UPDATE" ? (
+                    <button
+                      onClick={handleUpdate}
+                      className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                    >
+                      Update
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleUpdate}
+                      className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                    >
+                      Save
+                    </button>
+                  )}{" "}
                   <button
                     onClick={() => setModalOpen(false)}
                     className="bg-red-500 text-white py-2 px-4 rounded-lg"

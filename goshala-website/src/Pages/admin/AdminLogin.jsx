@@ -3,6 +3,7 @@ import images from "../../constants/images";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const AdminLogin = () => {
   const [cred, setCred] = useState({ email: "", password: "" });
   const [show, setShow] = useState(false);
@@ -30,17 +31,20 @@ const AdminLogin = () => {
       const response = await axios.post(import.meta.env.VITE_ADMIN_LOGIN, cred);
       if (response.status === 200) {
         sessionStorage.setItem("adminAccess", response.data.accessToken);
-        alert("Logged in successfully");
         navigate("/admin/dashboard");
       }
     } catch (error) {
-      alert("Error occured while logging in");
+      alert(
+        error.response?.data?.err || "An error occurred. Please try again."
+      );
       console.log(error);
     } finally {
       setCall(false);
     }
   };
-
+  const handleNavigate = () => {
+    navigate("/");
+  };
   return (
     <div className="flex flex-col md:flex-row h-screen">
       {/* Left Section */}
@@ -119,6 +123,14 @@ const AdminLogin = () => {
             >
               {call ? "Loggin..." : "Login"}
             </button>
+          </div>
+          <div className="justify-end flex">
+            <span
+              onClick={handleNavigate}
+              className="underline  text-blue-700 cursor-pointer"
+            >
+              User Sign in
+            </span>
           </div>
         </div>
       </div>

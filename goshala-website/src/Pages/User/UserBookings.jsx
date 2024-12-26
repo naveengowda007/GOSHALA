@@ -30,7 +30,8 @@ const UserBookings = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `${BASEURL}/api/v1/users/data/getUserTravelBookings?user_id=${userDetails?.empid}`,
+          `${BASEURL}/api/v1/users/data/getUserTravelBookings`,
+          // `${BASEURL}/api/v1/users/data/getUserTravelBookings?user_id=${userDetails?.empid}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
