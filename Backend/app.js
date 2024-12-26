@@ -18,13 +18,13 @@ const app = express();
 
 // setup necessary middlewares
 app.use(cors());
-app.use(helmet());
+//app.use(helmet());
 app.use(express.json());
 //app.use(express.static(process.cwd() + "/Frontend/build/"));
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, { cors: { origin: "*" } });
-app.use(express.static(process.cwd() + "/GIASCHOOL/dist/"));
+app.use(express.static(process.cwd() + "/goshala-website/dist/"));
 
 // routers
 
@@ -34,7 +34,7 @@ app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/global", globalRouter);
 
 app.get("*", (req, res) => {
-  res.sendFile(process.cwd() + "/GIASCHOOL/dist/index.html");
+  res.sendFile(process.cwd() + "/goshala-website/dist/index.html");
 });
 
 // health check route
