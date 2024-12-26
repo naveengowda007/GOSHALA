@@ -1,4 +1,4 @@
-name: Build and Deploy to EC2
+name: Build and Deploy to Ubuntu Server
 
 on:
   push:
@@ -26,32 +26,27 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t flutterflirt/gia:latest .
+          docker build -t flutterflirt/goshala:latest .
 
       - name: Push Docker image
         run: |
-          docker push flutterflirt/gia:latest
+          docker push flutterflirt/goshala:latest
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up SSH key for EC2
-        run: |
-          echo "${{ secrets.EC2_KEY }}" > ec2_key.pem
-          chmod 600 ec2_key.pem
-
-      - name: Deploy on EC2 via SSH
+      - name: Deploy on Ubuntu Server via SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
           port: 22
           script: |
             # Navigate to the directory with your docker-compose.yml file
-            cd /home/ubuntu/gia
+            cd /home/ubuntu/goshala
 
             # Ensure Docker Compose is stopped, then pull and start the latest image
             docker compose down
