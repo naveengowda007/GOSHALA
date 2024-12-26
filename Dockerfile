@@ -1,7 +1,7 @@
 FROM node:18 AS ui-build
 WORKDIR /usr/src/app
-COPY GIASCHOOL/ ./GIASCHOOL/
-RUN cd GIASCHOOL && npm install && npm run build
+COPY goshala-website/ ./goshala-website/
+RUN cd goshala-website && npm install && npm run build
 
 
 FROM node:18 AS server-build
@@ -11,7 +11,7 @@ RUN cd Backend && npm install
 
 FROM node:18
 WORKDIR /usr/src/app/
-COPY --from=ui-build /usr/src/app/GIASCHOOL/dist ./GIASCHOOL/dist
+COPY --from=ui-build /usr/src/app/goshala-website/dist ./goshala-website/dist
 COPY --from=server-build /usr/src/app/Backend/ ./
 
 EXPOSE 3000
