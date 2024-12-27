@@ -55,34 +55,77 @@ export default function TripDetails() {
       <div className="flex">
         <SideBar />
         <section className="m-2 p-2 w-full">
-          <span className="text-2xl font-bold text-green-700">Packages</span>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black  p-2"
-            placeholder="Search packages"
-          />
+          <div className="flex items-center mb-4">
+            <span className="text-2xl font-bold text-green-700">Packages</span>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="h-10 ml-10 w-96 border rounded-full border-black p-2"
+              placeholder="Search packages"
+            />
+          </div>
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {tripTypes.length > 0 ? (
                 tripTypes.map((trip, index) => (
                   <div
                     key={trip.trip_id}
-                    className="bg-green-prm text-white p-4 rounded-lg flex flex-col gap-1 justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                    className="bg-white text-black p-4 rounded-xl shadow-xl flex flex-col gap-3 hover:scale-105 transition-all cursor-pointer"
                     onClick={() => openModal(trip)}
                   >
-                    <span>From: {trip.trip_from}</span>
-                    <span> To: {trip.trip_to}</span>
-                    <span> Intermediate Stops: {trip.intermideate_stops}</span>
-
-                    <span> Start Date: {trip.start_date?.slice(0, 10)}</span>
-                    <span> End Date: {trip.end_date?.slice(0, 10)}</span>
-                    <span> Price: ₹{trip.price}</span>
-                    <span> Days Count: {trip.days_count}</span>
-                    <span> Trip Type: {trip.trip_type}</span>
-                    <span> Trip Status: {trip.trip_status}</span>
-                    <span> Trip Descriptions: {trip.trip_descriptions}</span>
+                    <span className="font-semibold">
+                      From:{" "}
+                      <span className="font-normal">{trip.trip_from}</span>
+                    </span>
+                    <span className="font-semibold">
+                      To: <span className="font-normal">{trip.trip_to}</span>
+                    </span>
+                    <span className="font-semibold">
+                      Intermediate Stops:{" "}
+                      <span className="font-normal">
+                        {trip.intermideate_stops}
+                      </span>
+                    </span>
+                    <span className="font-semibold">
+                      Start Date:{" "}
+                      <span className="font-normal">
+                        {trip.start_date?.slice(0, 10)}
+                      </span>
+                    </span>
+                    <span className="font-semibold">
+                      End Date:{" "}
+                      <span className="font-normal">
+                        {trip.end_date?.slice(0, 10)}
+                      </span>
+                    </span>
+                    <span className="font-semibold">
+                      Price: <span className="font-normal">₹{trip.price}</span>
+                    </span>
+                    <span className="font-semibold">
+                      Days Count:{" "}
+                      <span className="font-normal">{trip.days_count}</span>
+                    </span>
+                    <span className="font-semibold">
+                      Trip Type:{" "}
+                      <span className="font-normal">{trip.trip_type}</span>
+                    </span>
+                    <span className="font-semibold">
+                      Trip Status:{" "}
+                      <span className="font-normal">{trip.trip_status}</span>
+                    </span>
+                    <span className="font-semibold">
+                      Trip Descriptions:{" "}
+                      <span className="font-normal">
+                        {trip.trip_descriptions}
+                      </span>
+                    </span>
+                    <button
+                      className="mt-4 bg-green-prm text-white py-2 px-4 rounded-lg w-full hover:scale-105 transition-all"
+                      onClick={() => console.log("View Details", trip)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 ))
               ) : (
