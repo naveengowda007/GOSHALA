@@ -24,6 +24,8 @@ function Login() {
     if (id === "password") setPassword(value);
     if (id === "confirm-password") setConfirmPassword(value);
   };
+
+  // const isFormValid = email.length > 0 && password.length > 0 ;
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -31,10 +33,15 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // if(!isFormValid) {
+    //   alert("Please fill all the credentials")
+    // }
+    if(!email || !password) {
+      return
+    }
     // Create the payload
     const payload = {
       email,
-
       password,
     };
 
@@ -111,6 +118,8 @@ function Login() {
                   onChange={handleInputChange}
                   className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter your email"
+                  required
+                  title="Please fill your email"
                 />
               </div>
 
@@ -129,9 +138,11 @@ function Login() {
                     onChange={handleInputChange}
                     className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter your password"
+                    required
+                    title="Please fill your password"
                   />
                   <button
-                    type="button"
+                    type="submit"
                     onClick={togglePasswordVisibility}
                     className="absolute inset-y-0 right-2 flex items-center text-gray-500"
                   >
@@ -146,6 +157,7 @@ function Login() {
 
               <button
                 type="submit"
+                // disabled={!isFormValid}
                 className="w-full py-2 text-white bg-emerald-700 rounded hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 Login

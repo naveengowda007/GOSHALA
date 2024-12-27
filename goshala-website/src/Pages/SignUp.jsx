@@ -28,8 +28,24 @@ function SignUp() {
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
   const togglePasswordVisibility1 = () => setShowPassword1((prev) => !prev);
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
     console.log("Signing up with:", { username, email, phone, password });
+
+    if (
+      !username ||
+      !email ||
+      !phone ||
+      !password ||
+      !confirmPassword
+    ) {
+      alert("All fields must be filled out.");
+      return;
+    }
+    if (!/^\d{10}$/.test(phone)) {
+      alert("Phone number must be exactly 10 digits and contain only numbers.");
+      return;
+    }
 
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
@@ -82,6 +98,8 @@ function SignUp() {
       {/* Right Section */}
       <section className="flex items-center justify-center w-1/2">
         <aside className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
+          <form onSubmit={handleSignUp}>
+
           <p className="text-2xl font-bold text-gray-800">Sign Up</p>
           <div className="mt-4 space-y-4">
             <div>
@@ -127,12 +145,13 @@ function SignUp() {
               </label>
               <input
                 id="phone"
-                type="number"
+                type="tel"
                 value={phone}
                 onChange={handleInputChange}
                 className="w-full mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Enter your phone number"
                 required
+                maxLength={10}
               />
             </div>
             <div>
@@ -196,12 +215,14 @@ function SignUp() {
               </div>
             </div>
             <button
-              onClick={handleSignUp}
+              // onClick={handleSignUp}
+              type="submit"
               className="w-full py-2 text-white bg-emerald-700 rounded hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Sign Up
             </button>
           </div>
+          </form>
           <button
             type="button"
             onClick={handleNavigate}

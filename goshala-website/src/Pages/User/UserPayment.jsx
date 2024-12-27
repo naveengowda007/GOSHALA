@@ -12,6 +12,12 @@ export default function UserPayment() {
   const [mloading, setmLoading] = useState(false);
   const Navigate = useNavigate();
   // Replace with your actual BASEURL
+  const [paymentDate, setPaymentData] = useState({
+    payment_id: "",
+    payment_amount: "",
+    payment_date: "",
+    booking_id: "",
+  });
   const BASEURL =
     import.meta.env.VITE_REACT_APP_BASEURL || "http://localhost:3000";
   const userDetails = useSelector((state) => state.auth.userDetails);
@@ -21,6 +27,13 @@ export default function UserPayment() {
     if (!token) {
       alert("You are not authorized. Please log in.");
       return;
+    }
+    if (!paymentDate.payment_id) {
+      alert("Please provide payment ID");
+      return;
+    }
+    if(paymentDate.payment_amount) {
+      alert("Please provide payment amount")
     }
 
     try {

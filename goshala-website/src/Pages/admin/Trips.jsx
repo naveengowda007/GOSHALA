@@ -48,41 +48,83 @@ const Trips = () => {
     getTrips();
   }, [adminAccess, navigate]);
 
+  const validateForm = () => {
+    if (!currentTrip.trip_from) {
+      alert("Please fill in the 'From' field.");
+      return false;
+    }
+    if (!currentTrip.trip_to) {
+      alert("Please fill in the 'To' field.");
+      return false;
+    }
+    if (!currentTrip.start_date) {
+      alert("Please fill in the 'Start Date' field.");
+      return false;
+    }
+    if (!currentTrip.end_date) {
+      alert("Please fill in the 'End Date' field.");
+      return false;
+    }
+    if (!currentTrip.price) {
+      alert("Please fill in the 'Price' field.");
+      return false;
+    }
+    if (!currentTrip.intermideate_stops) {
+      alert("Please fill in the 'Intermediate Stops' field.");
+      return false;
+    }
+    if (!currentTrip.days_count) {
+      alert("Please fill in the 'Days Count' field.");
+      return false;
+    }
+    if (!currentTrip.trip_descriptions) {
+      alert("Please fill in the 'Trip Description' field.");
+      return false;
+    }
+    if (!currentTrip.trip_type) {
+      alert("Please fill in the 'Trip Type' field.");
+      return false;
+    }
+    return true;
+  };
+
   const handleCreate = async () => {
-    setmLoading(true);
-    try {
-      const response = await axios.post(
-        import.meta.env.VITE_INSERT_TRIPS,
-        currentTrip,
-        {
-          headers: {
-            Authorization: `Bearer ${adminAccess}`,
-          },
+    if (validateForm()) {
+      setmLoading(true);
+      try {
+        const response = await axios.post(
+          import.meta.env.VITE_INSERT_TRIPS,
+          currentTrip,
+          {
+            headers: {
+              Authorization: `Bearer ${adminAccess}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          alert("Created Successfully");
+          const newTrip = { ...currentTrip, trip_id: trips.length + 1 };
+          setTrips([...trips, newTrip]);
         }
-      );
-      if (response.status === 200) {
-        alert("Created Successfully");
-        const newTrip = { ...currentTrip, trip_id: trips.length + 1 };
-        setTrips([...trips, newTrip]);
+      } catch (error) {
+        alert("Error creating trips");
+        console.log(error);
+      } finally {
+        setCurrentTrip({
+          trip_from: "",
+          trip_to: "",
+          intermideate_stops: "",
+          trip_descriptions: "",
+          start_date: "",
+          end_date: "",
+          price: "",
+          days_count: "",
+          trip_type: "",
+          trip_status: "",
+        });
+        setmLoading(false);
+        setModalOpen(false);
       }
-    } catch (error) {
-      alert("Error creating trips");
-      console.log(error);
-    } finally {
-      setCurrentTrip({
-        trip_from: "",
-        trip_to: "",
-        intermideate_stops: "",
-        trip_descriptions: "",
-        start_date: "",
-        end_date: "",
-        price: "",
-        days_count: "",
-        trip_type: "",
-        trip_status: "",
-      });
-      setmLoading(false);
-      setModalOpen(false);
     }
   };
 

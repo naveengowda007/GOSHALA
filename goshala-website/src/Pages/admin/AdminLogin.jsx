@@ -20,7 +20,8 @@ const AdminLogin = () => {
     setShow(!show);
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setCall(true);
     if (cred.email.length === 0 || cred.password.length === 0) {
       alert("Please provide required input fields");
@@ -69,61 +70,68 @@ const AdminLogin = () => {
 
         {/* Login Form */}
         <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-700 font-semibold mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              disabled={call}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              placeholder="Enter your email"
-              onChange={onChange}
-            />
-          </div>
-          {/* Password */}
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-700 font-semibold mb-2"
-            >
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={show ? "text" : "password"}
-                name="password"
-                disabled={call}
-                id="password"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                placeholder="Enter your password"
-                onChange={onChange}
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-                onClick={togglePasswordVisibility}
+          <form onSubmit={handleLogin}>
+            <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+            {/* Email */}
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-gray-700 font-semibold mb-2"
               >
-                {show ? <FaRegEyeSlash /> : <FaRegEye />}
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                disabled={call}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Enter your email"
+                onChange={onChange}
+                required
+                title="Please fill this field"
+              />
+            </div>
+            {/* Password */}
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-gray-700 font-semibold mb-2"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={show ? "text" : "password"}
+                  name="password"
+                  disabled={call}
+                  id="password"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  placeholder="Enter your password"
+                  onChange={onChange}
+                  required
+                  title="Please fill this field"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                  onClick={togglePasswordVisibility}
+                >
+                  {show ? <FaRegEyeSlash /> : <FaRegEye />}
+                </button>
+              </div>
+            </div>
+            <div>
+              <button
+                className="w-full bg-green-prm text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
+                // onClick={handleLogin}
+                type="submit"
+              >
+                {call ? "Loggin..." : "Login"}
               </button>
             </div>
-          </div>
+          </form>
 
-          <div>
-            <button
-              className="w-full bg-green-prm text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200"
-              onClick={handleLogin}
-            >
-              {call ? "Loggin..." : "Login"}
-            </button>
-          </div>
           <div className="justify-end flex">
             <span
               onClick={handleNavigate}

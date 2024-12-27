@@ -40,6 +40,22 @@ export default function AddCustomer() {
       return;
     }
 
+    if (!formData.member_name) {
+      alert("Please provoide Member Name");
+      return;
+    }
+    if (!formData.member_age) {
+      alert("Please provide Member Age");
+      return;
+    }
+    if (!formData.member_contact_number) {
+      alert("Please provide Member Contact Number");
+      return;
+    }
+    if (!formData.memeber_gender) {
+      alert("Please provide Member Gender");
+      return;
+    }
     try {
       const response = await axios.post(
         `${BASEURL}/api/v1/users/data/insertMembersList`,
@@ -124,12 +140,13 @@ export default function AddCustomer() {
               <div className="w-[40%]">
                 <label className="block mb-1 font-medium">Contact Number</label>
                 <input
-                  type="number"
+                  type="tel"
                   name="member_contact_number"
                   value={formData.member_contact_number}
                   onChange={handleChange}
                   placeholder="Enter contact number"
                   className="border rounded p-2 w-full"
+                  maxLength={10}
                 />
               </div>
             </div>

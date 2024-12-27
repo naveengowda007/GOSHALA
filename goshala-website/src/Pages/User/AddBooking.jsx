@@ -73,6 +73,18 @@ export default function Customer() {
       return;
     }
     console.log(selectedTriptype, selectedMemberid);
+    if(!selectedTriptype) {
+      alert("Please select trip type")
+      return;
+    }
+    if(!Price) {
+      alert("Please provide Price")
+      return;
+    }
+    if(!selectedMemberid) {
+      alert("Please provide member name")
+      return;
+    }
     try {
       const response = await axios.post(
         `${BASEURL}/api/v1/users/data/insertUserTravelBookings`,
