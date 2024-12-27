@@ -11,7 +11,7 @@ export default function UserAnnouncements() {
   const BASEURL =
     import.meta.env.VITE_REACT_APP_BASEURL || "http://localhost:3000";
 
-  // Fetch Trip Types
+  // Fetch Announcements
   const handleSubmit = async () => {
     if (!token) {
       alert("You are not authorized. Please log in.");
@@ -44,11 +44,10 @@ export default function UserAnnouncements() {
     handleSubmit();
   }, []);
 
-  //   // Filter Trip Types Based on Search Term
+  // Filter Announcements Based on Search Term
   const filteredTrips = tripTypes.filter((trip) =>
     trip.announcement_type?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
-  //   console.log(first);
 
   return (
     <aside>
@@ -60,25 +59,23 @@ export default function UserAnnouncements() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black  p-2"
-            placeholder="Search packages"
+            className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black p-2"
+            placeholder="Search announcements"
           />
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {filteredTrips.length > 0 ? (
                 filteredTrips.map((trip, index) => (
                   <div
-                    key={trip.trip_id}
-                    className="bg-green-prm text-white p-4 rounded-lg flex flex-col gap-1 justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
-                    onClick={() => openModal(trip)}
+                    key={index}
+                    className="bg-white text-black p-4 rounded-2xl flex flex-col gap-1 justify-evenly flex-wrap shadow-2xl border border-gray-700 hover:scale-105 transition-all cursor-pointer"
                   >
-                    <span>Announcment Type: {trip.announcement_type}</span>
-
-                    <span> Description: {trip.announcement_description}</span>
+                    <span>Announcement Type: {trip.announcement_type}</span>
+                    <span>Description: {trip.announcement_description}</span>
                   </div>
                 ))
               ) : (
-                <p>No trip Announcment available</p>
+                <p>No announcement available</p>
               )}
             </div>
           </section>
