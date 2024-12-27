@@ -33,18 +33,28 @@ const UserDashboard = () => {
     <div className="flex">
       <SideBar />
       <section className="m-2 p-2 w-full">
-        <div className=" flex justify-start items-center mb-6">
-          <h2 className="text-xl font-bold ">Dashboard</h2>
+        <div className="flex justify-start items-center mb-6">
+          <h2 className="text-xl font-bold">Dashboard</h2>
         </div>
         <div className="grid grid-cols-3 gap-4">
           {cardData.map((card, index) => (
             <div
               key={index}
-              className="bg-green-prm text-white p-6 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-all"
+              className="bg-white text-black p-6 rounded-lg flex flex-col justify-between shadow-lg hover:scale-105 transition-all cursor-pointer"
               onClick={() => navigate(card.link)}
             >
-              <div className="text-4xl mb-4">{card.icon}</div>
-              <span className="text-lg">{card.text}</span>
+              <div className="flex items-center justify-center text-4xl mb-4">
+                {card.icon}
+              </div>
+              <span className="text-lg font-semibold text-center">
+                {card.text}
+              </span>
+              <button
+                className="mt-4 bg-green-prm text-white py-2 px-4 rounded-lg hover:scale-105 transition-all"
+                onClick={() => navigate(card.link)}
+              >
+                View Details
+              </button>
             </div>
           ))}
         </div>

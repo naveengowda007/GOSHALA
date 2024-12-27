@@ -3,15 +3,15 @@ import SideBar from "../../Component/SideBar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../componets/admin/Loading";
-import { FaEdit } from "react-icons/fa";
 import { useSelector } from "react-redux";
+
 const UserBookings = () => {
   let navigate = useNavigate();
   const BASEURL =
     import.meta.env.VITE_REACT_APP_BASEURL || "http://localhost:3000";
   const token = sessionStorage.getItem("authToken");
   const userDetails = useSelector((state) => state.auth.userDetails);
-  console.log(userDetails?.empid);
+
   const [bookings, setBookings] = useState(null);
   const [loading, setLoading] = useState(false);
   const [mloading, setmLoading] = useState(false);
@@ -31,7 +31,6 @@ const UserBookings = () => {
       try {
         const response = await axios.get(
           `${BASEURL}/api/v1/users/data/getUserTravelBookings`,
-          // `${BASEURL}/api/v1/users/data/getUserTravelBookings?user_id=${userDetails?.empid}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -84,30 +83,29 @@ const UserBookings = () => {
       setModalOpen(true);
     }
   };
-  // const filteredTrips = bookings.filter((trip) =>
-  //   trip?.trip_type_name?.toLowerCase().includes(searchTerm?.toLowerCase())
-  // );
+
   const handleNavigate = () => {
     navigate("/AddBooking");
   };
+
   return (
     <div className="flex">
       <SideBar />
       <section className="m-2 p-2 w-full">
-        <div className=" flex justify-start items-center p-4">
+        <div className="flex justify-start items-center p-4">
           <h2 className="text-2xl font-bold">Bookings</h2>
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black  p-2"
-            placeholder="Search packages"
+            className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black p-2"
+            placeholder="Search bookings"
           />
         </div>
         <div className="flex justify-end">
           <button
             onClick={handleNavigate}
-            className="bg-green-800 p-2 m-2 rounded-md text-white "
+            className="bg-green-800 p-2 m-2 rounded-md text-white"
           >
             Add Booking
           </button>
@@ -131,24 +129,29 @@ const UserBookings = () => {
             bookings.map((booking) => (
               <div
                 key={booking.booking_id}
-                className="bg-green-prm text-white p-4 rounded-lg flex flex-col justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
-                onClick={() => openModal(booking)}
+                className="bg-white text-black p-4 rounded-2xl shadow-black shadow-xl flex flex-col justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer"
               >
-                <span className="text-md italic font-semibold">
+                <span className="text-md  font-semibold">
                   Booking ID: {booking.booking_id}
                 </span>
-                <span className="text-md italic font-semibold">
+                <span className="text-md  font-semibold">
                   Trip ID: {booking.trip_id}
                 </span>
-                <span className="text-md italic font-semibold">
+                <span className="text-md  font-semibold">
                   User ID: {booking.user_id}
                 </span>
-                <span className="text-md italic font-semibold">
+                <span className="text-md  font-semibold">
                   Member ID: {booking.member_id}
                 </span>
-                <span className="text-md italic font-semibold">
+                <span className="text-md  font-semibold">
                   Paid Amount: ₹{booking.paid_amount}
                 </span>
+                <button
+                  onClick={() => openModal(booking)}
+                  className="bg-green-prm text-white py-2 px-4 mt-4 rounded-md hover:scale-105 transition-all"
+                >
+                  View Details
+                </button>
               </div>
             ))
           )}
@@ -157,9 +160,7 @@ const UserBookings = () => {
         {modalOpen && (
           <div className="modal-overlay fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
             {mloading ? (
-              <div>
-                <Loading />
-              </div>
+              <Loading />
             ) : (
               <div className="modal-content bg-white p-6 rounded-lg w-full max-w-3xl shadow-lg">
                 <h3 className="text-xl font-bold mb-4">Update Booking</h3>

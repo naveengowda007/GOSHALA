@@ -71,64 +71,66 @@ export default function Customer() {
       <div className="flex">
         <SideBar />
         <section className="m-2 p-2 w-full">
-          <div className="flex items-center">
+          <div className="flex items-center mb-4">
             <span className="text-2xl font-bold text-green-700">Packages</span>
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black  p-2"
+              className="h-10 ml-10 w-96 border rounded-full border-black p-2"
               placeholder="Search packages"
             />
-            <div className="flex justify-end">
+            <div className="flex justify-end ml-auto">
               <button
                 onClick={handleNavigate}
-                className="bg-green-800 p-2 m-2 rounded-md text-white "
+                className="bg-green-prm py-2 px-4 rounded-lg text-white hover:scale-105 transition-all"
               >
                 Add Customer
               </button>
             </div>
           </div>
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {filteredTrips.length > 0 ? (
                 filteredTrips.map((trip, index) => (
                   <div
                     key={index}
-                    className="p-2 border-b shadow-md rounded-lg bg-green-700 text-white"
+                    className="bg-white text-black p-4 rounded-lg shadow-lg hover:scale-105 transition-all"
                   >
-                    <p className="flex">
-                      <span>User ID : </span>
-                      <span className="text-white ml-1">
+                    <p className="text-lg font-semibold mb-2">
+                      User ID:{" "}
+                      <span className="font-normal">
                         {trip.associated_user_id}
                       </span>
                     </p>
-                    <p>
-                      <span>Member Age : </span>
-                      <span className="text-white ml-1">{trip.member_age}</span>
+                    <p className="text-lg font-semibold mb-2">
+                      Member Age:{" "}
+                      <span className="font-normal">{trip.member_age}</span>
                     </p>
-                    <p>
-                      <span>Contact Number : </span>
-                      <span className="text-white ml-1 w-[300px]">
+                    <p className="text-lg font-semibold mb-2">
+                      Contact Number:{" "}
+                      <span className="font-normal">
                         {trip.member_contact_number}
                       </span>
                     </p>
-                    <p>
-                      <span>Member Id : </span>
-                      <span className="text-white ml-1">{trip.member_id}</span>
+                    <p className="text-lg font-semibold mb-2">
+                      Member ID:{" "}
+                      <span className="font-normal">{trip.member_id}</span>
                     </p>
-                    <p>
-                      <span>Member Name : </span>
-                      <span className="text-white ml-1">
-                        {trip.member_name}
-                      </span>
+                    <p className="text-lg font-semibold mb-2">
+                      Member Name:{" "}
+                      <span className="font-normal">{trip.member_name}</span>
                     </p>
-                    <p>
-                      <span>Gender : </span>
-                      <span className="text-white ml-1">
-                        {trip.memeber_gender}
-                      </span>
+                    <p className="text-lg font-semibold mb-4">
+                      Gender:{" "}
+                      <span className="font-normal">{trip.memeber_gender}</span>
                     </p>
+                    <button
+                      className="bg-green-prm text-white py-2 px-4 rounded-lg w-full hover:scale-105 transition-all"
+                      onClick={() => console.log("View Details", trip)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 ))
               ) : (
