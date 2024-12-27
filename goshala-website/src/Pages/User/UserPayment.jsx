@@ -4,6 +4,7 @@ import SideBar from "../../Component/SideBar";
 import Loading from "../../componets/admin/Loading";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 export default function UserPayment() {
   const [tripTypes, setTripTypes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,12 +12,11 @@ export default function UserPayment() {
   const [modalOpen, setModalOpen] = useState(false);
   const [mloading, setmLoading] = useState(false);
   const Navigate = useNavigate();
-  // Replace with your actual BASEURL
   const BASEURL =
     import.meta.env.VITE_REACT_APP_BASEURL || "http://localhost:3000";
   const userDetails = useSelector((state) => state.auth.userDetails);
   console.log(userDetails?.empid);
-  // Fetch Trip Types
+
   const handleSubmit = async () => {
     if (!token) {
       alert("You are not authorized. Please log in.");
@@ -35,7 +35,6 @@ export default function UserPayment() {
 
       if (response) {
         console.log(response.data);
-
         setTripTypes(response.data);
       } else {
         alert("Something went wrong");
@@ -58,15 +57,12 @@ export default function UserPayment() {
       trip?.booking_id?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
 
-  //   console.log(first);
   const handleNavigate = () => {
     Navigate("/AddCustomer");
   };
+
   const openModal = () => {
-    // if (booking) {
-    //   setCurrentBooking(booking);
     setModalOpen(true);
-    // }
   };
 
   const handleUpdate = async () => {
@@ -74,10 +70,12 @@ export default function UserPayment() {
     try {
       const response = await axios.post(
         `${BASEURL}/api/v1/users/data/insertPayments`,
-        (payment_id = ""),
-        (payment_amount = ""),
-        (payment_date = ""),
-        (booking_id = ""),
+        {
+          payment_id: "",
+          payment_amount: "",
+          payment_date: "",
+          booking_id: "",
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -86,12 +84,6 @@ export default function UserPayment() {
       );
       if (response.status === 200) {
         alert("Booking Updated Successfully");
-        const updatedBookings = bookings.map((booking) =>
-          booking.booking_id === currentBooking.booking_id
-            ? currentBooking
-            : booking
-        );
-        setBookings(updatedBookings);
       }
     } catch (error) {
       alert("Error updating booking");
@@ -101,6 +93,7 @@ export default function UserPayment() {
       setmLoading(false);
     }
   };
+
   return (
     <aside>
       <div className="flex">
@@ -112,45 +105,46 @@ export default function UserPayment() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black  p-2"
+              className="h-10 ml-10 w-96 border rounded-full border-y-2 border-black p-2"
               placeholder="Search packages"
             />
             <div className="flex justify-end">
               <button
                 onClick={() => openModal()}
-                className="bg-green-800 p-2 m-2 rounded-md text-white "
+                className="bg-green-800 p-2 m-2 rounded-md text-white"
               >
                 Make Payment
               </button>
             </div>
           </div>
+
           <section className="shadow-md m-2 p-2 min-h-screen">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {filteredTrips.length > 0 ? (
                 filteredTrips.map((trip, index) => (
                   <div
                     key={index}
-                    className="p-2 border-b shadow-md rounded-lg bg-green-700 text-white"
+                    className="p-2 border-b shadow-2xl rounded-2xl bg-white text-black"
                   >
                     <p className="flex">
                       <span>Payment Id : </span>
-                      <span className="text-white ml-1">{trip.payment_id}</span>
+                      <span className="text-black ml-1">{trip.payment_id}</span>
                     </p>
                     <p>
                       <span>Payment Amount : </span>
-                      <span className="text-white ml-1">
+                      <span className="text-black ml-1">
                         {trip.payment_amount}
                       </span>
                     </p>
                     <p>
                       <span>Payment Date : </span>
-                      <span className="text-white ml-1 w-[300px]">
+                      <span className="text-black ml-1 w-[300px]">
                         {trip.payment_date?.slice(0, 10)}
                       </span>
                     </p>
                     <p>
                       <span>Booking Id : </span>
-                      <span className="text-white ml-1">{trip.booking_id}</span>
+                      <span className="text-black ml-1">{trip.booking_id}</span>
                     </p>
                   </div>
                 ))
@@ -175,13 +169,6 @@ export default function UserPayment() {
                             <label className="font-semibold">Payment ID</label>
                             <input
                               type="Number"
-                              //   value={currentBooking.booking_id}
-                              //   onChange={(e) =>
-                              //     setCurrentBooking({
-                              //       ...currentBooking,
-                              //       booking_id: e.target.value,
-                              //     })
-                              //   }
                               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                           </div>
@@ -191,31 +178,8 @@ export default function UserPayment() {
                             </label>
                             <input
                               type="number"
-                              //   value={currentBooking.trip_id}
-                              //   onChange={(e) =>
-                              //     setCurrentBooking({
-                              //       ...currentBooking,
-                              //       trip_id: e.target.value,
-                              //     })
-                              //   }
                               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <div>
-                            <label className="font-semibold">Booking ID</label>
-                            {/* <input
-                              type="text"
-                              value={currentBooking.user_id}
-                              onChange={(e) =>
-                                setCurrentBooking({
-                                  ...currentBooking,
-                                  user_id: e.target.value,
-                                })
-                              }
-                              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            /> */}
                           </div>
                         </div>
                       </div>
