@@ -45,25 +45,38 @@ const Members = () => {
   };
 
   const handleUpdate = async () => {
+    if (SAVEorUpdate === "SAVE") {
+      if (
+        !currentMember.member_name ||
+        !currentMember.member_age ||
+        !currentMember.member_contact_number ||
+        !currentMember.memeber_gender
+      ) {
+        alert("Please fill all the fields");
+        return;
+      }
+    }
     setmLoading(true);
     try {
-      const response = await axios.post(
+      const endPoint =
         SAVEorUpdate === "UPDATE"
           ? import.meta.env.VITE_UPDATE_MEMBERS
-          : import.meta.env.VITE_SAVE_MEMBERS,
-        currentMember,
-        {
-          headers: {
-            Authorization: `Bearer ${adminAccess}`,
-          },
-        }
-      );
+          : import.meta.env.VITE_ADD_MEMBERS;
+      const response = await axios.post(endPoint, currentMember, {
+        headers: {
+          Authorization: `Bearer ${adminAccess}`,
+        },
+      });
       if (response.status === 200) {
-        alert("Updated Successfully");
-        getMembers();
-        const updatedMembers = members.map((member) =>
-          member.member_id === currentMember.member_id ? currentMember : member
+        alert(
+          SAVEorUpdate === "UPDATE"
+            ? "Updated Successfully"
+            : "Added Succesfully"
         );
+        getMembers();
+        // const updatedMembers = members.map((member) =>
+        //   member.member_id === currentMember.member_id ? currentMember : member
+        // );
         setMembers(updatedMembers);
       }
     } catch (error) {
@@ -83,7 +96,13 @@ const Members = () => {
     }
   };
   const openModalNew = () => {
-    setCurrentMember("");
+    setCurrentMember({
+      member_name: "",
+      memeber_gender: "",
+      member_age: "",
+      member_contact_number: "",
+      associated_user_id: "",
+    });
     setSAVEorUpdate("SAVE");
     setModalOpen(true);
   };
@@ -151,7 +170,7 @@ const Members = () => {
               </div>
             ) : (
               <div className="modal-content bg-white p-6 rounded-lg w-full max-w-3xl shadow-lg">
-                <h3 className="text-xl font-bold mb-4">Update Member</h3>
+                <h3 className="text-xl font-bold mb-4">{SAVEorUpdate === "UPDATE" ? "Update Member" : "Add Member"}</h3>
                 <form className="space-y-6">
                   <div className="space-y-4">
                     <div>
@@ -159,6 +178,8 @@ const Members = () => {
                       <input
                         type="text"
                         value={currentMember.member_name}
+                        required
+                        title="Please fill this field"
                         onChange={(e) =>
                           setCurrentMember({
                             ...currentMember,
@@ -178,6 +199,8 @@ const Members = () => {
                             memeber_gender: e.target.value,
                           })
                         }
+                        required
+                        title="Please fill this field"
                         className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
                         <option value="Male">Male</option>
@@ -203,6 +226,7 @@ const Members = () => {
                       <input
                         type="text"
                         value={currentMember.member_contact_number}
+                        maxLength={10}
                         onChange={(e) =>
                           setCurrentMember({
                             ...currentMember,
