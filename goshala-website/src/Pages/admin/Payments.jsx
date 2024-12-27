@@ -111,21 +111,34 @@ const Payments = () => {
             payments.map((payment) => (
               <div
                 key={payment.payment_id}
-                className="bg-green-prm text-white p-4 rounded-lg flex flex-col justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                className="bg-white text-black p-4 rounded-2xl flex flex-col justify-between hover:scale-105 transition-all cursor-pointer 300ms shadow-lg shadow-black"
                 onClick={() => openModal(payment)}
               >
-                <span className="text-md italic font-semibold">
-                  Payment ID: {payment.payment_id}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Amount: ₹{payment.payment_amount}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Date: {new Date(payment.payment_date).toLocaleDateString()}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Booking ID: {payment.booking_id}
-                </span>
+                {/* <img
+                  src="https://via.placeholder.com/150" // Placeholder image URL
+                  alt="Payment Image"
+                  className="w-full h-40 object-cover rounded-lg mb-4"
+                /> */}
+                <div className="flex flex-col space-y-2">
+                  <span className="text-md  font-semibold">
+                    Payment ID: {payment.payment_id}
+                  </span>
+                  <span className="text-md  font-semibold">
+                    Amount: ₹{payment.payment_amount}
+                  </span>
+                  <span className="text-md  font-semibold">
+                    Date: {new Date(payment.payment_date).toLocaleDateString()}
+                  </span>
+                  <span className="text-md font-semibold">
+                    Booking ID: {payment.booking_id}
+                  </span>
+                </div>
+                <button
+                  onClick={() => openModal(payment)}
+                  className="mt-4 bg-green-prm text-white py-2 px-4 rounded-lg text-center hover:scale-105 transition-all"
+                >
+                  View Details
+                </button>
               </div>
             ))
           )}

@@ -135,7 +135,7 @@ const Announcements = () => {
     <div className="flex">
       <Sidebar currentPage="announcements" />
       <div className="flex-1">
-        <div className="flex justify-between items-center p-4">
+        <div className="h-[10%] flex justify-between items-center p-4">
           <h2 className="text-2xl font-bold">Announcements</h2>
           <button
             onClick={() => openModal()}
@@ -164,15 +164,28 @@ const Announcements = () => {
             announcements.map((announcement) => (
               <div
                 key={announcement.announcement_id}
-                className="bg-green-prm text-white p-4 rounded-lg flex flex-col justify-evenly hover:scale-105 transition-all cursor-pointer 300ms"
+                className="bg-white text-black p-4 rounded-lg flex flex-col justify-between hover:scale-105 transition-all cursor-pointer 300ms  shadow-lg"
                 onClick={() => openModal(announcement)}
               >
-                <span className="text-md font-semibold">
-                  Type: {announcement.announcement_type}
-                </span>
-                <span className="text-md font-semibold">
-                  Description: {announcement.announcement_description}
-                </span>
+                {/* <img
+                  src="https://via.placeholder.com/150" // Placeholder image URL
+                  alt="Announcement Image"
+                  className="w-full h-40 object-cover rounded-lg mb-4"
+                /> */}
+                <div className="flex flex-col space-y-2">
+                  <span className="text-md font-semibold">
+                    Type: {announcement.announcement_type}
+                  </span>
+                  <span className="text-md font-semibold">
+                    Description: {announcement.announcement_description}
+                  </span>
+                </div>
+                <button
+                  onClick={() => openModal(announcement)}
+                  className="mt-4 bg-green-prm text-white py-2 px-4 rounded-lg text-center hover:scale-105 transition-all"
+                >
+                  View Details
+                </button>
               </div>
             ))
           )}
