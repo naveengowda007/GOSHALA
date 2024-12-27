@@ -92,7 +92,7 @@ const Members = () => {
     <div className="flex">
       <Sidebar currentPage="members" />
       <div className="flex-1">
-        <div className=" flex justify-between items-center p-4">
+        <div className="flex justify-between items-center p-4">
           <h2 className="text-2xl font-bold">Members</h2>
           <button
             onClick={() => openModalNew()}
@@ -101,11 +101,12 @@ const Members = () => {
             Create Members
           </button>
         </div>
+
         <div
           className={`${
             loading
               ? "flex justify-center items-center h-full"
-              : "grid grid-cols-3 gap-4 p-4 m-4"
+              : "grid grid-cols-3 gap-6 p-4"
           }`}
         >
           {loading ? (
@@ -120,24 +121,34 @@ const Members = () => {
             members.map((member) => (
               <div
                 key={member.member_id}
-                className="bg-green-prm text-white p-4 rounded-lg flex flex-col justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                className="bg-white border border-gray-700 rounded-2xl shadow-xl shadow-black overflow-hidden transition-transform transform hover:scale-105 cursor-pointer"
                 onClick={() => openModal(member)}
               >
-                <span className="text-md italic font-semibold">
-                  Name: {member.member_name}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Gender: {member.memeber_gender}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Age: {member.member_age}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Contact Number: {member.member_contact_number}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Associated User ID: {member.associated_user_id}
-                </span>
+                {/* <img
+                  src={member.image || "default-image.jpg"} // Replace with actual image field
+                  alt={member.member_name}
+                  className="w-full h-40 object-cover"
+                /> */}
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    {member.member_name}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-1">
+                    Gender: {member.memeber_gender}
+                  </p>
+                  <p className="text-gray-600 text-sm mb-1">
+                    Age: {member.member_age}
+                  </p>
+                  <p className="text-gray-600 text-sm mb-1">
+                    Contact: {member.member_contact_number}
+                  </p>
+                  <p className="text-gray-600 text-sm">
+                    User ID: {member.associated_user_id}
+                  </p>
+                </div>
+                <div className="bg-green-prm text-white text-center py-2">
+                  View Details
+                </div>
               </div>
             ))
           )}
@@ -246,7 +257,7 @@ const Members = () => {
                     >
                       Save
                     </button>
-                  )}{" "}
+                  )}
                   <button
                     onClick={() => setModalOpen(false)}
                     className="bg-red-500 text-white py-2 px-4 rounded-lg"

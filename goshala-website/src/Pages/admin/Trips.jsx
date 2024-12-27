@@ -3,6 +3,7 @@ import Sidebar from "../../componets/admin/Sidebar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../componets/admin/Loading";
+import image from "../../assets/image.png";
 
 const Trips = () => {
   const [trips, setTrips] = useState([]);
@@ -146,8 +147,8 @@ const Trips = () => {
     <div className="flex">
       <Sidebar currentPage="trips" />
       <div className="">
-        <div className=" flex justify-between p-4">
-          <h2 className="text-2xl font-bold ">Trips</h2>
+        <div className="flex justify-between p-4">
+          <h2 className="text-2xl font-bold">Trips</h2>
           <button
             onClick={() => openModal()}
             className="bg-green-prm py-2 rounded-lg px-4 text-white font-semibold hover:scale-105 transition-all 300ms"
@@ -175,55 +176,43 @@ const Trips = () => {
             trips.map((trip) => (
               <div
                 key={trip.trip_id}
-                className="bg-green-prm text-white p-4 rounded-lg flex flex-col justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                className="bg-white shadow-xl gap-4  shadow-black rounded-2xl overflow-hidden hover:scale-105 transition-all cursor-pointer 300ms border border-gray-700"
                 onClick={() => openModal(trip)}
               >
-                <span className="text-md italic font-semibold">
-                  From: {trip.trip_from}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  To: {trip.trip_to}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Intermediate Stops: {trip.intermideate_stops}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Trip Descriptions: {trip.trip_descriptions}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Start Date: {trip.start_date}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  End Date: {trip.end_date}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Price: ₹{trip.price}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Days Count: {trip.days_count}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Trip Type: {trip.trip_type}
-                </span>
-                <span className="text-md italic font-semibold">
-                  {" "}
-                  Trip Status: {trip.trip_status}
-                </span>
+                <div className="relative ">
+                  <img
+                    src={image}
+                    alt={trip.trip_from + " to " + trip.trip_to}
+                    className="w-full h-48 object-cover"
+                  />
+                  <p className="absolute top-2 left-2 bg-blue-500 text-white text-sm font-semibold px-2 py-1 rounded">
+                    {trip.trip_status}
+                  </p>
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold mb-2">
+                    {trip.trip_from} to {trip.trip_to}
+                  </h3>
+                  <div className="flex flex-col gap-1 mb-2">
+                    <p className="text-gray-600 text-sm">
+                      ₹{trip.price} / {trip.days_count} days
+                    </p>
+                    <p className="text-gray-600 text-sm">{trip.trip_type}</p>
+                    <p className="text-gray-600 text-sm truncate">
+                      {trip.trip_descriptions}
+                    </p>
+                  </div>
+                </div>
+                <div className="bg-green-500 text-center text-white py-2 cursor-pointer hover:bg-green-600 transition-all">
+                  View Details
+                </div>
               </div>
             ))
           )}
         </div>
 
         {modalOpen && (
-          <div className="modal-overlay fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center ">
+          <div className="modal-overlay fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
             {mloading ? (
               <div>
                 <Loading />

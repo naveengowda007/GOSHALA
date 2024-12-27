@@ -98,12 +98,12 @@ const Bookings = () => {
       <div className="flex-1">
         <div className="flex justify-between items-center p-4">
           <h2 className="text-2xl font-bold">Bookings</h2>
-          {/* <button
+          <button
             onClick={() => openModalNew()}
             className="bg-green-prm py-2 rounded-lg px-4 text-white font-semibold hover:scale-105 transition-all 300ms"
           >
             Create Booking
-          </button> */}
+          </button>
         </div>
         <div
           className={`${
@@ -124,24 +124,37 @@ const Bookings = () => {
             bookings.map((booking) => (
               <div
                 key={booking.booking_id}
-                className="bg-green-prm text-white p-4 rounded-lg flex flex-col justify-evenly flex-wrap hover:scale-105 transition-all cursor-pointer 300ms"
+                className="bg-white text-black p-4 rounded-xl flex flex-col justify-between hover:scale-105 transition-all cursor-pointer 300ms shadow-xl"
                 onClick={() => openModal(booking)}
               >
-                <span className="text-md italic font-semibold">
-                  Booking ID: {booking.booking_id}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Trip ID: {booking.trip_id}
-                </span>
-                <span className="text-md italic font-semibold">
-                  User ID: {booking.user_id}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Member ID: {booking.member_id}
-                </span>
-                <span className="text-md italic font-semibold">
-                  Paid Amount: ₹{booking.paid_amount}
-                </span>
+                {/* <img
+                  src="https://via.placeholder.com/150" // Placeholder image URL
+                  alt="Booking Image"
+                  className="w-full h-40 object-cover rounded-lg mb-4"
+                /> */}
+                <div className="flex flex-col space-y-2">
+                  <span className="text-md  font-semibold">
+                    Booking ID: {booking.booking_id}
+                  </span>
+                  <span className="text-md  font-semibold">
+                    Trip ID: {booking.trip_id}
+                  </span>
+                  <span className="text-md  font-semibold">
+                    User ID: {booking.user_id}
+                  </span>
+                  <span className="text-md  font-semibold">
+                    Member ID: {booking.member_id}
+                  </span>
+                  <span className="text-md  font-semibold">
+                    Paid Amount: ₹{booking.paid_amount}
+                  </span>
+                </div>
+                <button
+                  onClick={() => openModal(booking)}
+                  className="mt-4 bg-green-prm text-white py-2 px-4 rounded-lg text-center hover:scale-105 transition-all"
+                >
+                  View Details
+                </button>
               </div>
             ))
           )}
@@ -246,7 +259,7 @@ const Bookings = () => {
                     >
                       Save
                     </button>
-                  )}{" "}
+                  )}
                   <button
                     onClick={() => setModalOpen(false)}
                     className="bg-red-500 text-white py-2 px-4 rounded-lg"
