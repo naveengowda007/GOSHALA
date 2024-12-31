@@ -10,7 +10,7 @@ import {
   Platform,
   Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import the eye icon from FontAwesome
 import { useRouter } from "expo-router";
